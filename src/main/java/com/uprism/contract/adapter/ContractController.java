@@ -8,7 +8,7 @@ public class ContractController {
 
 	@GetMapping("/contract")
 	public String write() {
-		return "blank";
+		return "contractForm";
 	}
 	
 	@GetMapping("/preview")

@@ -136,6 +136,7 @@
           <li class="breadcrumb-item active">계약서 미리보기</li>
         </ol>
 
+		<button id="contractTablePrintBtn" class="btn btn-info float-right">인쇄</button>
         <!-- Page Content -->
         <table id="contractTable" class="contract_table">
         	<tr><td colspan="5" class="contract_title">uPrism.io Meetings 서비스 신청서</td></tr>
@@ -145,13 +146,13 @@
        		<tr class="customer_area">
        			<th rowspan="2">담당자</th>
        			<th>성명(직급)</th>
-       			<td></td>
+       			<td class="customer_input_area"></td>
        			<th>연락처</th>
-       			<td></td>
+       			<td class="customer_input_area"></td>
        		</tr>
        		<tr class="customer_area">
        			<th>전자세금계산서 수신 e-mail</th>
-       			<td colspan="3"></td>
+       			<td colspan="3" class="customer_input_area"></td>
        		</tr>
        		<tr class="customer_area">
        			<th rowspan="2">입금정보</th>
@@ -160,7 +161,7 @@
        		</tr>
        		<tr class="customer_area">
        			<th>납부자명</th>
-       			<td colspan="3"></td>
+       			<td colspan="3" class="customer_input_area"></td>
        		</tr>
         	<tr><td colspan="5" class="contract_sub_title">2. 서비스 계약 내역</td></tr>
         	<tr><td colspan="5" class="contract_unit">(단위 : 원 / VAT 포함)</td></tr>
@@ -170,7 +171,7 @@
        		</tr>
        		<tr class="service_area">
        			<th colspan="2">사용 시작일</th>
-       			<td colspan="3"></td>
+       			<td colspan="3" class="customer_input_area"></td>
        		</tr>
        		<tr class="service_area">
        			<th rowspan="4">납부금액</th>
@@ -206,25 +207,28 @@
        		</tr>
        		<tr class="company_area">
        			<th>사업자등록번호</th>
-       			<td colspan="2"></td>
+       			<td colspan="2" class="customer_input_area"></td>
        			<th>사업자등록번호</th>
        			<td>110-81-73264</td>
        		</tr>
        		<tr class="company_area">
        			<th>대표이사</th>
-       			<td colspan="2"></td>
+       			<td colspan="2" class="customer_input_area"></td>
        			<th>대표이사</th>
        			<td>차민수</td>
        		</tr>
        		<tr class="company_area">
        			<th>주소</th>
-       			<td colspan="2"></td>
+       			<td colspan="2" class="customer_input_area"></td>
        			<th>주소</th>
        			<td>서울시 강남구 테헤란로 501 VEPLX 7층 711호</td>
        		</tr>
         	<tr><td colspan="5">첨부서류 : 사업자등록증 1부, 법인계좌 1부</td></tr>
         </table>
-        
+        <div class="row justify-content-md-center mb-5">
+	        <button class="btn btn-primary mr-1">계약서 발송</button>
+	        <button class="btn btn-secondary" onclick="history.back();">이전</button>
+        </div>
         
       </div>
       <!-- /.container-fluid -->
@@ -293,6 +297,7 @@ function printData(objId) {
 					'.contract_table th {' +
 						'background-color: #f2f2f2;' +
 						'text-align: center;' +
+						'height: 2.3em;' + 
 					'}' +
 					'.contract_title {' +
 						'font-size: 1.6em;' +
@@ -342,6 +347,10 @@ function printData(objId) {
 						'font-weight: 600;' +
 						'padding: 1em 0;' +
 					'}' +
+					'.customer_input_area {' +
+						'background-color: #fff2cc;' +
+						'min-width: 100px;' +
+					'}' +
 				'</style>';
 	var newWin = window.open('');
 	newWin.document.write(style);
@@ -352,7 +361,7 @@ function printData(objId) {
 	}, 250);
 }
 
-$('#contractTable').on('click', function(){
+$('#contractTablePrintBtn').on('click', function(){
 	printData('contractTable');
 });
 </script>

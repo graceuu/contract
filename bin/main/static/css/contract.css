@@ -12,6 +12,7 @@
 .contract_table th {
 	background-color: #f2f2f2;
 	text-align: center;
+	height: 2.3em;
 }
 
 .contract_title {
@@ -70,4 +71,9 @@
 	font-size: 1.1em;
 	font-weight: 600;
 	padding: 1em 0;
+}
+
+.customer_input_area {
+	background-color: #fff2cc;
+	min-width: 100px;
 }
