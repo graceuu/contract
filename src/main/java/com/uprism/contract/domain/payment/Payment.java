@@ -9,37 +9,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.uprism.contract.domain.contract.Contract;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 
 @Entity
 @Table(name = "payments")
 public class Payment {
 
+	public Payment(@NotNull BigDecimal price, String content, String remarks, int orders) {
+		this.price = price;
+		this.content = content;
+		this.remarks = remarks;
+		this.orders = orders;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NonNull
+
+	@NotNull
 	private BigDecimal price;
-	
+
 	private String content;
-	
+
 	private String remarks;
-	
-	private int order;
-	
+
+	private int orders;
+
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@NonNull
+	@Setter
 	private Contract contract;
 }
