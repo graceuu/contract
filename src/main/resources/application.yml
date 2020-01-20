@@ -20,3 +20,13 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+  mail:
+     host: smtp.gmail.com
+     port: 587
+     username: uprism.user001@gmail.com
+     password: uprism@123
+     properties:
+       mail:
+         smtp:
+           auth: true
+           starttls.enable: true

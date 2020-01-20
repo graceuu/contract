@@ -17,7 +17,11 @@ public class ContractRepresentation {
     }
 
     @Builder
+    @Getter
     public static class Detail {
-
+    	
+    	private String companyName;
+        private String contractDate;
+        private BigDecimal totalPrice;
     }
 }

@@ -1,11 +1,10 @@
 package com.uprism.contract.application.value;
 
-import com.uprism.contract.domain.company.Company;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class ContractCommand {
 
@@ -15,6 +14,7 @@ public class ContractCommand {
 
         private String name;
         private String companyName;
+        private String companyEmail;
         private List<Payment> payments;
         private String contactName;
         private String contact;
@@ -26,6 +26,7 @@ public class ContractCommand {
         private String remarks;
 
         @Getter
+        @Setter
         public static class Payment {
             private BigDecimal price;
             private String content;

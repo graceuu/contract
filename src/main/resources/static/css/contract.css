@@ -77,3 +77,7 @@
 	background-color: #fff2cc;
 	min-width: 100px;
 }
+
+.start_date_precautions {
+	color: red;
+}

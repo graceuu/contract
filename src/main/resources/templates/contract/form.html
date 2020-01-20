@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <th:block th:replace="fragments/head :: mainHead"></th:block>
+</head>
+
+<body id="page-top">
+  <th:block th:replace="fragments/navigation :: nav"></th:block>
+
+  <div id="wrapper">
+    <th:block th:replace="fragments/sidebar :: sidebar"></th:block>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="index.html">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">새 계약서</li>
+        </ol>
+
+        <!-- Page Content -->
+        <h4>uPrism.io Meetings 서비스 신청서</h4>
+        <hr>
+        <form action="/contract/preview" method="post">
+        	<h5>고객사항</h5>
+	        <div class="form-group">
+	          <div class="form-row">
+	            <div class="col-md-6">
+	              <div class="form-label-group">
+	                <input type="text" id="companyName" name="companyName" class="form-control" placeholder="회사명" required="required" autofocus="autofocus">
+	                <label for="companyName">회사명</label>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <div class="form-label-group">
+	                <input type="text" id="companyEmail" name="companyEmail" class="form-control" placeholder="회사 이메일" required="required">
+	                <label for="companyEmail">회사 이메일</label>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        <h5>서비스 계약 내역</h5>
+	        <div class="form-group">
+	          <div class="form-row">
+	            <div class="col-md-6">
+	              <div class="form-label-group">
+	                <input type="number" id="maxLicense" name="maxLicense" class="form-control" placeholder="최대 동시 참석자 수" required="required" value="3">
+	                <label for="maxLicense">최대 동시 참석자 수</label>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <div class="form-label-group">
+	                <input type="date" id="contractDate" name="contractDate" class="form-control" placeholder="계약 날짜" required="required">
+	                <label for="contractDate">계약 날짜</label>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+			<h6>납부 금액</h6>
+			<div id="defaultPriceWrap" class="priceItem">
+		        <div class="form-group">
+		          <div class="form-label-group">
+		            <input type="number" id="contractFee" name="payments[0].price" class="form-control" placeholder="기본 계약금" required="required" value="0">
+		            <label for="contractFee">기본 계약금</label>
+		          </div>
+		        </div>
+		        <div class="form-group">
+		          <div class="form-label-group">
+		            <input type="text" id="contractFeeInfo" name="payments[0].remarks" class="form-control" placeholder="기본 계약금 부가 설명">
+		            <label for="contractFeeInfo">기본 계약금 부가 설명</label>
+		          </div>
+		        </div>
+		        <button type="button" id="addPriceItemBtn" class="btn btn-light btn-block">금액 항목 추가</button>
+	        </div>
+	        <hr>
+	        <div class="form-group">
+	          <div class="form-label-group">
+	            <input type="text" id="contractCondition" name="remarks" class="form-control" placeholder="서비스 조건 및 주의사항" required="required" value="▣ 서면계약 및 수동결제로 중도 해지가 불가능합니다.">
+	            <label for="contractCondition">서비스 조건 및 주의사항</label>
+	          </div>
+	        </div>
+	        <button class="btn btn-primary btn-block">작성 완료</button>
+        </form>
+      </div>
+      <!-- /.container-fluid -->
+
+      <th:block th:replace="fragments/footer :: footer"></th:block>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <th:block th:replace="fragments/ui/pageTopButton :: topBtn"></th:block>
+
+  <th:block th:replace="fragments/ui/modal :: confirm"></th:block>
+
+  <th:block th:replace="fragments/script :: script"></th:block>
+
+<script>
+function addPriceItem() {
+	var priceItemCount = $('.priceItem').length;
+	var priceHtml = '<hr>' +
+					'<div class="priceItem">' +
+						'<div class="form-group">' +
+							'<div class="form-label-group">' +
+								'<input type="text" id="contractFeeTitle' + priceItemCount + '" name="payments[' + priceItemCount + '].content" class="form-control" placeholder="추가 비용' + priceItemCount + ' 항목" required="required">' +
+								'<label for="contractFeeTitle1">추가 비용' + priceItemCount + ' 항목</label>' +
+							'</div>' +
+						'</div>' +
+						'<div class="form-group">' +
+							'<div class="form-label-group">' +
+								'<input type="number" id="contractFee' + priceItemCount + '" name="payments[' + priceItemCount + '].price" class="form-control" placeholder="추가비용' + priceItemCount + '" required="required" value="0">' +
+								'<label for="contractFee' + priceItemCount + '">추가비용' + priceItemCount + '</label>' +
+							'</div>' +
+						'</div>' +
+						'<div class="form-group">' +
+							'<div class="form-label-group">' +
+								'<input type="text" id="contractFeeInfo' + priceItemCount + '" name="payments[' + priceItemCount + '].remarks" class="form-control" placeholder="추가비용' + priceItemCount + ' 부가 설명">' +
+								'<label for="contractFeeInfo' + priceItemCount + '">추가비용' + priceItemCount + ' 부가 설명</label>' +
+							'</div>' +
+						'</div>' +
+					'</div>';
+	$('#defaultPriceWrap').append(priceHtml);
+}
+
+$('#addPriceItemBtn').on('click', function(){
+	addPriceItem();
+});
+</script>
+</body>
+
+</html>

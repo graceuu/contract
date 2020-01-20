@@ -2,6 +2,7 @@ package com.uprism.contract.adapter;
 
 import com.uprism.contract.application.ContractCommandService;
 import com.uprism.contract.application.ContractQueryService;
+import com.uprism.contract.application.MailService;
 import com.uprism.contract.application.value.ContractCommand;
 import com.uprism.contract.application.value.ContractRepresentation;
 import com.uprism.contract.domain.contract.Contract;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RequiredArgsConstructor
 
 @RestController
@@ -20,12 +23,17 @@ public class ContractRestController {
 
     private final ContractCommandService contractCommandService;
     private final ContractQueryService contractQueryService;
+    private final MailService mailService;
 
     @PostMapping
-    public Response<ContractRepresentation.List> createContract(@RequestBody final ContractCommand.Addition command) {
+    public Response<ContractRepresentation.List> createContract(
+    		@RequestBody final ContractCommand.Addition command,
+    		HttpServletRequest request
+    ) {
         final Contract contract = contractCommandService.addContract(
                 command.getName(),
                 command.getCompanyName(),
+                command.getCompanyEmail(),
                 command.getContactName(),
                 command.getContact(),
                 command.getEmail(),
@@ -35,6 +43,12 @@ public class ContractRestController {
                 command.getTotalPrice(),
                 command.getRemarks(),
                 command.getPayments()
+        );
+        
+        mailService.sendSimpleMail(
+        		contract.getEmail(),
+        		"[uPrism io] 계약서를 작성해주세요!",
+        		request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/" + contract.getId()
         );
 
         return new Response<>(
