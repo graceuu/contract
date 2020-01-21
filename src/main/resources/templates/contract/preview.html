@@ -18,7 +18,7 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="index.html">Dashboard</a>
+            <a href="/">Dashboard</a>
           </li>
           <li class="breadcrumb-item active">계약서 미리보기</li>
         </ol>
@@ -27,7 +27,7 @@
         <!-- Page Content -->
         <table id="contractTable" class="contract_table">
         	<tr><td colspan="5" class="contract_title">uPrism.io Meetings 서비스 신청서</td></tr>
-        	<tr><td colspan="5">　서비스 신청인 충북일자리지원센터 (이하 “사용자”)과 서비스 제공자인 ㈜유프리즘아이오(이하 “제공자”)은 화상회의 ASP서비스를 이용함에 있어 -아래-와 같이 신청합니다.</td></tr>
+        	<tr><td colspan="5">　서비스 신청인 <span th:text="${session.contract.companyName}"></span>(이하 “사용자”)과 서비스 제공자인 ㈜유프리즘아이오(이하 “제공자”)은 화상회의 ASP서비스를 이용함에 있어 -아래-와 같이 신청합니다.</td></tr>
         	<tr><td colspan="5" class="contract_under_area">- 아　　　　　래 -</td></tr>
         	<tr><td colspan="5" class="contract_sub_title">1. 고객사항</td></tr>
        		<tr class="customer_area">
@@ -54,7 +54,7 @@
         	<tr><td colspan="5" class="contract_unit">(단위 : 원 / VAT 포함)</td></tr>
        		<tr class="service_area">
        			<th colspan="2">최대 동시 참석자 수</th>
-       			<td colspan="3" th:text="|${contract.maxLicense}명|"></td>
+       			<td colspan="3" th:text="|${session.contract.maxLicense}명|"></td>
        		</tr>
        		<tr class="service_area">
        			<th colspan="2">사용 시작일</th>
@@ -63,32 +63,32 @@
        			</td>
        		</tr>
        		<tr class="service_area">
-       			<th th:rowspan="${#lists.size(contract.payments) + 1}">납부금액</th>
+       			<th th:rowspan="${#lists.size(session.contract.payments) + 1}">납부금액</th>
        			<th>기본 계약금(1)</th>
-       			<td colspan="3" th:utext="|&#8361; ${contract.payments[0].price}원<br>${contract.payments[0].remarks}|"></td>
+       			<td colspan="3" th:utext="|<strong>&#8361; ${#numbers.formatInteger(session.contract.payments[0].price, 3, 'COMMA')}원</strong><br>${session.contract.payments[0].remarks}|"></td>
        		</tr>
-       		<th:block th:if="${#lists.size(contract.payments)} > 1">
-	       		<tr th:if="${index.count > 1}" th:each="payment, index : ${contract.payments}" class="service_area">
+       		<th:block th:if="${#lists.size(session.contract.payments)} > 1">
+	       		<tr th:if="${index.count > 1}" th:each="payment, index : ${session.contract.payments}" class="service_area">
 	       			<th th:text="|추가비용(${index.count})|"></th>
-	       			<td colspan="3" th:utext="|${payment.content}<br>&#8361; ${payment.price}원<br>${payment.remarks}|"></td>
+	       			<td colspan="3" th:utext="|<strong>${payment.content}<br>&#8361; ${#numbers.formatInteger(payment.price, 3, 'COMMA')}원</strong><br>${payment.remarks}|"></td>
 	       		</tr>
        		</th:block>
        		<tr class="service_area">
        			<th>합 계</th>
-       			<td colspan="3" th:text="|&#8361; ${contract.totalPrice}원|"></td>
+       			<td colspan="3" th:utext="|<strong>&#8361; ${#numbers.formatInteger(session.contract.totalPrice, 3, 'COMMA')}원</strong>|"></td>
        		</tr>
        		<tr class="service_area">
        			<th colspan="2">조건</th>
-       			<td colspan="3" th:text="${contract.remarks}"></td>
+       			<td colspan="3" th:text="${session.contract.remarks}"></td>
        		</tr>
-        	<tr><td colspan="5" class="contract_date" th:text="${contract.contractDate}">2020 년 10 월 17 일</td></tr>
+        	<tr><td colspan="5" class="contract_date" th:text="${session.contract.contractDate}">2020 년 10 월 17 일</td></tr>
        		<tr class="service_area">
        			<th colspan="3">고객</th>
        			<th colspan="2">제공사</th>
        		</tr>
        		<tr class="company_area">
        			<th>회사명</th>
-       			<td colspan="2" th:text="|${contract.companyName}　　　(인)|"></td>
+       			<td colspan="2" th:text="|${session.contract.companyName}　　　(인)|"></td>
        			<th>회사명</th>
        			<td>㈜유프리즘　　　(인)</td>
        		</tr>
@@ -112,10 +112,10 @@
        		</tr>
         	<tr><td colspan="5">첨부서류 : 사업자등록증 1부, 법인계좌 1부</td></tr>
         </table>
-        <div class="row justify-content-md-center mb-5">
+        <form action="/contract/create" method="post" class="row justify-content-md-center mb-5">
 	        <button class="btn btn-primary mr-1">계약서 발송</button>
-	        <button class="btn btn-secondary" onclick="history.back();">이전</button>
-        </div>
+	        <button type="button" class="btn btn-secondary" onclick="history.back();">이전</button>
+        </form>
         
       </div>
       <!-- /.container-fluid -->
@@ -134,87 +134,11 @@
   
   <th:block th:replace="fragments/script :: script"></th:block>
 
-<script>
-function printData(objId) {
-	var printObj = document.getElementById(objId);
-	var style = '<style>' +
-					'.contract_table {' +
-						'font-size: 0.9em;' +
-						'background: url("https://www.uprism.com/images/common/uprism_stamp.png") no-repeat 80% 95%;' +
-						'margin-bottom: 3em;' +
-						'max-width: 850px;' +
-						'margin: 3em auto;' +
-						'border-collapse: collapse;' +
-					'}' +
-					'.contract_table th {' +
-						'background-color: #f2f2f2;' +
-						'text-align: center;' +
-						'height: 2.3em;' + 
-					'}' +
-					'.contract_title {' +
-						'font-size: 1.6em;' +
-						'text-align: center;' +
-						'text-decoration: underline;' +
-						'padding: 1.2em 0;' +
-					'}' +
-					'.contract_under_area {' +
-						'text-align: center;' +
-						'padding: 1.2em 0;' +
-					'}' +
-					'.contract_sub_title {' +
-						'font-size: 1.1em;' +
-						'font-weight: bold;' +
-						'padding: 1em 0;' +
-					'}' +
-					'.customer_area th, .customer_area td,' +
-					'.service_area th, .service_area td {' +
-						'border: 1px solid #000;' +
-					'}' +
-					'.customer_area td, .service_area td {' +
-						'padding-left: 1em;' +
-					'}' +
-					'.company_area th {' +
-						'text-align: right;' +
-						'background-color: #fff;' +
-						'font-weight: normal;' +
-						'border-left: 1px solid #000;' +
-						'border-right: 1px solid #000;' +
-						'border-bottom: 1px solid #000;' +
-						'padding-right: 1em;' +
-					'}' +
-					'.company_area td {' +
-						'border-bottom: 1px solid #000;' +
-						'padding-left: 1em;' +
-					'}' +
-					'.company_area td:last-child {' +
-						'border-right: 1px solid #000;' +
-					'}' +
-					'.contract_unit {' +
-						'text-align: right;' +
-						'font-size: 0.8em;' +
-					'}' +
-					'.contract_date {' +
-						'text-align: right;' +
-						'font-size: 1.1em;' +
-						'font-weight: 600;' +
-						'padding: 1em 0;' +
-					'}' +
-					'.customer_input_area {' +
-						'background-color: #fff2cc;' +
-						'min-width: 100px;' +
-					'}' +
-				'</style>';
-	var newWin = window.open('');
-	newWin.document.write(style);
-	newWin.document.write(printObj.outerHTML);
-	setTimeout(function() {
-		newWin.print();
-		newWin.close();
-	}, 250);
-}
 
+<script type="module">
+import contract from '/js/contract/contract.js';
 $('#contractTablePrintBtn').on('click', function(){
-	printData('contractTable');
+	contract.printData('contractTable');
 });
 </script>
 </body>

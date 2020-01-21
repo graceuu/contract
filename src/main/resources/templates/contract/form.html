@@ -18,7 +18,7 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="index.html">Dashboard</a>
+            <a href="/">Dashboard</a>
           </li>
           <li class="breadcrumb-item active">새 계약서</li>
         </ol>
@@ -38,7 +38,7 @@
 	            </div>
 	            <div class="col-md-6">
 	              <div class="form-label-group">
-	                <input type="text" id="companyEmail" name="companyEmail" class="form-control" placeholder="회사 이메일" required="required">
+	                <input type="email" id="companyEmail" name="companyEmail" class="form-control" placeholder="회사 이메일" required="required">
 	                <label for="companyEmail">회사 이메일</label>
 	              </div>
 	            </div>
@@ -111,7 +111,7 @@ function addPriceItem() {
 						'<div class="form-group">' +
 							'<div class="form-label-group">' +
 								'<input type="text" id="contractFeeTitle' + priceItemCount + '" name="payments[' + priceItemCount + '].content" class="form-control" placeholder="추가 비용' + priceItemCount + ' 항목" required="required">' +
-								'<label for="contractFeeTitle1">추가 비용' + priceItemCount + ' 항목</label>' +
+								'<label for="contractFeeTitle' + priceItemCount + '">추가 비용' + priceItemCount + ' 항목</label>' +
 							'</div>' +
 						'</div>' +
 						'<div class="form-group">' +

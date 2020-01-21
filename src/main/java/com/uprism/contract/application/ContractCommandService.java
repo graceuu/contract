@@ -25,14 +25,9 @@ public class ContractCommandService {
 
     @Transactional
     public Contract addContract(
-            final String name,
             final String companyName,
             final String companyEmail,
-            final String contactName,
-            final String contact,
-            final String email,
             final int maxLicense,
-            final String startDate,
             final String contractDate,
             final BigDecimal totalPrice,
             final String remarks,
@@ -50,14 +45,9 @@ public class ContractCommandService {
 
         final Contract contract = contractRepository.save(
                 new Contract(
-                        name,
-                        company == null ? Company.of(companyName, companyEmail) : company,
+                        company == null ? new Company(companyName, companyEmail) : company,
                         paymentList,
-                        contactName,
-                        contact,
-                        email,
                         maxLicense,
-                        startDate,
                         contractDate,
                         totalPrice,
                         remarks
@@ -70,5 +60,34 @@ public class ContractCommandService {
 
 
         return contract;
+    }
+    
+    @Transactional
+    public Contract addContractAdditional(
+	    	final Long contractId,
+	    	final String name,
+	    	final String contactName,
+	    	final String contact,
+	    	final String email,
+	    	final String startDate,
+	    	final String registrationNumber,
+	    	final String ceoName,
+	    	final String address
+    ) {
+    	final Contract contract = contractRepository.findById(contractId).get();
+    	final Company company = contract.getCompany();
+    	
+    	company.setRegistrationNumber(registrationNumber);
+    	company.setCeoName(ceoName);
+    	company.setAddress(address);
+    	
+    	contract.setName(name);
+    	contract.setCompany(company);
+    	contract.setContactName(contactName);
+    	contract.setContact(contact);
+    	contract.setEmail(email);
+    	contract.setStartDate(startDate);
+    	
+    	return contractRepository.save(contract);
     }
 }

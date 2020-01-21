@@ -1,7 +1,6 @@
 package com.uprism.contract.adapter;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,14 +9,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uprism.contract.application.ContractCommandService;
 import com.uprism.contract.application.ContractQueryService;
 import com.uprism.contract.application.MailService;
 import com.uprism.contract.application.value.ContractCommand;
+import com.uprism.contract.application.value.ContractCommand.Addition;
 import com.uprism.contract.application.value.ContractCommand.Addition.Payment;
 import com.uprism.contract.domain.contract.Contract;
 
@@ -40,28 +40,26 @@ public class ContractController {
 	
 	@PostMapping("/create")
     public String createContract(
-    		@RequestBody final ContractCommand.Addition command,
-    		HttpServletRequest request
+    		HttpServletRequest request,
+    		HttpSession session
     ) {
+		final ContractCommand.Addition command = (Addition) session.getAttribute("contract");
         final Contract contract = contractCommandService.addContract(
-                command.getName(),
                 command.getCompanyName(),
                 command.getCompanyEmail(),
-                command.getContactName(),
-                command.getContact(),
-                command.getEmail(),
                 command.getMaxLicense(),
-                command.getStartDate(),
                 command.getContractDate(),
                 command.getTotalPrice(),
                 command.getRemarks(),
                 command.getPayments()
         );
         
+        session.removeAttribute("contract");
+        
         mailService.sendSimpleMail(
-        		contract.getEmail(),
+        		command.getCompanyEmail(),
         		"[uPrism io] 계약서를 작성해주세요!",
-        		request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/" + contract.getId()
+        		request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/contract/" + contract.getId()
         );
         
         return "redirect:";
@@ -72,7 +70,23 @@ public class ContractController {
 		List<Contract> contracts = contractQueryService.getContracts();
 		
 		model.addAttribute("contracts", contracts);
-		return "tables";
+		return "contract/list";
+	}
+	
+	@GetMapping("/{id}")
+	public String getContract(
+			@PathVariable("id") Long id,
+			Model model,
+			HttpSession session
+	) {
+		final Contract contract = contractQueryService.getContract(id);
+		
+		model.addAttribute("contract", contract);
+		
+		if (session.getAttribute("user") == null && contract.getContactName() == null)
+			return "contract/customerForm";
+		
+		return "contract/detail";
 	}
 	
 	@PostMapping("/preview")
@@ -83,7 +97,31 @@ public class ContractController {
 	) {
 		command.setTotalPrice(command.getPayments().stream().map(Payment::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add));
 		session.setAttribute("contract", command);
-		model.addAttribute("contract", command);
 		return "contract/preview";
+	}
+	
+	@PostMapping("/update")
+	public String updateContract(
+			ContractCommand.Modification command
+	) {
+		contractCommandService.addContractAdditional(
+				command.getId(),
+				command.getName(),
+				command.getContactName(),
+				command.getContact(),
+				command.getEmail(),
+				command.getStartDate(),
+				command.getRegistrationNumber(),
+				command.getCeoName(),
+				command.getAddress()
+		);
+		
+		return "redirect:" + command.getId();
+	}
+	
+	@GetMapping("/charts")
+	public String getContractCharts() {
+		
+		return "contract/charts";
 	}
 }

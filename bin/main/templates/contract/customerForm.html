@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <th:block th:replace="fragments/head :: mainHead"></th:block>
+</head>
+
+<body id="page-top">
+  <th:block th:replace="fragments/navigation :: nav"></th:block>
+  
+  <div id="wrapper">
+    <th:block th:replace="fragments/sidebar :: sidebar"></th:block>
+    
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">계약서 작성하기</li>
+        </ol>
+
+        <!-- Page Content -->
+        <form action="/contract/update" method="post">
+	        <table id="contractTable" class="contract_table">
+	        	<tr><td colspan="5" class="contract_title">uPrism.io Meetings 서비스 신청서</td></tr>
+	        	<tr><td colspan="5">　서비스 신청인 충북일자리지원센터 (이하 “사용자”)과 서비스 제공자인 ㈜유프리즘아이오(이하 “제공자”)은 화상회의 ASP서비스를 이용함에 있어 -아래-와 같이 신청합니다.</td></tr>
+	        	<tr><td colspan="5" class="contract_under_area">- 아　　　　　래 -</td></tr>
+	        	<tr><td colspan="5" class="contract_sub_title">1. 고객사항</td></tr>
+	       		<tr class="customer_area">
+	       			<th rowspan="2">담당자</th>
+	       			<th>성명(직급)</th>
+	       			<td class="customer_input_area"><input type="text" name="contactName" class="form-control" required="required" autofocus="autofocus"></td>
+	       			<th>연락처</th>
+	       			<td class="customer_input_area"><input type="text" name="contact" class="form-control" required="required"></td>
+	       		</tr>
+	       		<tr class="customer_area">
+	       			<th>전자세금계산서 수신 e-mail</th>
+	       			<td colspan="3" class="customer_input_area"><input type="email" name="email" class="form-control" required="required"></td>
+	       		</tr>
+	       		<tr class="customer_area">
+	       			<th rowspan="2">입금정보</th>
+	       			<th>계좌</th>
+	       			<td colspan="3">기업은행 480-046019-04-014　㈜유프리즘</td>
+	       		</tr>
+	       		<tr class="customer_area">
+	       			<th>납부자명</th>
+	       			<td colspan="3" class="customer_input_area"><input type="text" name="name" class="form-control" required="required"></td>
+	       		</tr>
+	        	<tr><td colspan="5" class="contract_sub_title">2. 서비스 계약 내역</td></tr>
+	        	<tr><td colspan="5" class="contract_unit">(단위 : 원 / VAT 포함)</td></tr>
+	       		<tr class="service_area">
+	       			<th colspan="2">최대 동시 참석자 수</th>
+	       			<td colspan="3" th:text="|${contract.maxLicense}명|"></td>
+	       		</tr>
+	       		<tr class="service_area">
+	       			<th colspan="2">사용 시작일</th>
+	       			<td colspan="3" class="customer_input_area">
+	       				<input type="date" name="startDate" class="form-control" required="required">
+	       				<span class="start_date_precautions">(시작일 전일까지 입금해주셔야 서비스 사용이 가능합니다.)</span>
+	       			</td>
+	       		</tr>
+	       		<tr class="service_area">
+	       			<th th:rowspan="${#lists.size(contract.payments) + 1}">납부금액</th>
+	       			<th>기본 계약금(1)</th>
+	       			<td colspan="3" th:utext="|<strong>&#8361; ${#numbers.formatInteger(contract.payments[0].price, 3, 'COMMA')}원</strong><br>${contract.payments[0].remarks}|"></td>
+	       		</tr>
+	       		<th:block th:if="${#lists.size(contract.payments)} > 1">
+		       		<tr th:if="${index.count > 1}" th:each="payment, index : ${contract.payments}" class="service_area">
+		       			<th th:text="|추가비용(${index.count})|"></th>
+		       			<td colspan="3" th:utext="|<strong>${payment.content}<br>&#8361; ${#numbers.formatInteger(payment.price, 3, 'COMMA')}원</strong><br>${payment.remarks}|"></td>
+		       		</tr>
+	       		</th:block>
+	       		<tr class="service_area">
+	       			<th>합 계</th>
+	       			<td colspan="3" th:utext="|<strong>&#8361; ${#numbers.formatInteger(contract.totalPrice, 3, 'COMMA')}원</strong>|"></td>
+	       		</tr>
+	       		<tr class="service_area">
+	       			<th colspan="2">조건</th>
+	       			<td colspan="3" th:text="${contract.remarks}"></td>
+	       		</tr>
+	        	<tr><td colspan="5" class="contract_date" th:text="${contract.contractDate}">2020 년 10 월 17 일</td></tr>
+	       		<tr class="service_area">
+	       			<th colspan="3" class="customer_cell">고객</th>
+	       			<th colspan="2">제공사</th>
+	       		</tr>
+	       		<tr class="company_area">
+	       			<th>회사명</th>
+	       			<td colspan="2" th:text="|${contract.company.name}　　　(인)|"></td>
+	       			<th>회사명</th>
+	       			<td>㈜유프리즘　　　(인)</td>
+	       		</tr>
+	       		<tr class="company_area">
+	       			<th>사업자등록번호</th>
+	       			<td colspan="2" class="customer_input_area"><input type="text" name="registrationNumber" class="form-control" required="required"></td>
+	       			<th>사업자등록번호</th>
+	       			<td>110-81-73264</td>
+	       		</tr>
+	       		<tr class="company_area">
+	       			<th>대표이사</th>
+	       			<td colspan="2" class="customer_input_area"><input type="text" name="ceoName" class="form-control" required="required"></td>
+	       			<th>대표이사</th>
+	       			<td>차민수</td>
+	       		</tr>
+	       		<tr class="company_area">
+	       			<th>주소</th>
+	       			<td colspan="2" class="customer_input_area"><input type="text" name="address" class="form-control" required="required"></td>
+	       			<th>주소</th>
+	       			<td>서울시 강남구 테헤란로 501 VEPLX 7층 711호</td>
+	       		</tr>
+	        	<tr><td colspan="5">첨부서류 : 사업자등록증 1부, 법인계좌 1부</td></tr>
+	        </table>
+	        <input type="hidden" name="id" th:value="${contract.id}">
+	        <div class="row justify-content-md-center mb-5">
+	        	<button class="btn btn-primary mr-1">계약서 저장</button>
+	        </div>
+        </form>
+        
+      </div>
+      <!-- /.container-fluid -->
+
+      <th:block th:replace="fragments/footer :: footer"></th:block>
+      
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <th:block th:replace="fragments/ui/pageTopButton :: topBtn"></th:block>
+  
+  <th:block th:replace="fragments/ui/modal :: confirm"></th:block>
+  
+  <th:block th:replace="fragments/script :: script"></th:block>
+
+</body>
+
+</html>

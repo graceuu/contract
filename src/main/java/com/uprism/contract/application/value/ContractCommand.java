@@ -12,15 +12,10 @@ public class ContractCommand {
     @Setter
     public static class Addition {
 
-        private String name;
         private String companyName;
         private String companyEmail;
         private List<Payment> payments;
-        private String contactName;
-        private String contact;
-        private String email;
         private int maxLicense;
-        private String startDate;
         private String contractDate;
         private BigDecimal totalPrice;
         private String remarks;
@@ -32,5 +27,20 @@ public class ContractCommand {
             private String content;
             private String remarks;
         }
+    }
+    
+    @Getter
+    @Setter
+    public static class Modification {
+    	
+    	private Long id;
+    	private String name;
+    	private String contactName;
+        private String contact;
+        private String email;
+        private String startDate;
+        private String registrationNumber;
+        private String ceoName;
+        private String address;
     }
 }

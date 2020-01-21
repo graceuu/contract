@@ -1,24 +1,31 @@
 package com.uprism.contract.domain.company;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@Setter
 
 @Entity
 @Table(name="companys")
 public class Company {
 
-	public static Company of (final String name,
-							final String email) {
-		return new Company(name, email);
+	public Company(
+			String name,
+			String email
+	) {
+		this.name = name;
+		this.email = email;
 	}
 	
 	@Id

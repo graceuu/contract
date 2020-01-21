@@ -2,7 +2,7 @@
 
 .contract_table {
 	font-size: 0.9em;
-	background: url('/images/uprism_stamp.png') no-repeat 80% 95%;
+	background: url('/images/uprism_stamp.png') no-repeat 80% 91%;
 	margin-bottom: 3em;
 	max-width: 850px;
 	margin: 3em auto;
@@ -39,7 +39,7 @@
 }
 
 .customer_area td, .service_area td {
-	padding-left: 1em;
+	padding: 0.5em 1em;
 }
 
 .company_area th {
@@ -54,7 +54,7 @@
 
 .company_area td {
 	border-bottom: 1px solid #000;
-	padding-left: 1em;
+	padding: 0.5em 1em;
 }
 
 .company_area td:last-child {
@@ -80,4 +80,11 @@
 
 .start_date_precautions {
 	color: red;
+	display: inline-block;
+	padding-top: 1em;
+	padding-bottom: 0.5em;
+}
+
+.customer_cell {
+	width: 50%;
 }

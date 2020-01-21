@@ -1,0 +1,90 @@
+function printData(objId) {
+	const printObj = document.getElementById(objId);
+	const style = '<style>' +
+					'.contract_table {' +
+						'font-size: 0.9em;' +
+						'background: url("https://www.uprism.com/images/common/uprism_stamp.png") no-repeat 80% 91%;' +
+						'margin-bottom: 3em;' +
+						'max-width: 850px;' +
+						'margin: 3em auto;' +
+						'border-collapse: collapse;' +
+					'}' +
+					'.contract_table th {' +
+						'background-color: #f2f2f2;' +
+						'text-align: center;' +
+						'height: 2.3em;' + 
+					'}' +
+					'.contract_title {' +
+						'font-size: 1.6em;' +
+						'text-align: center;' +
+						'text-decoration: underline;' +
+						'padding: 1.2em 0;' +
+					'}' +
+					'.contract_under_area {' +
+						'text-align: center;' +
+						'padding: 1.2em 0;' +
+					'}' +
+					'.contract_sub_title {' +
+						'font-size: 1.1em;' +
+						'font-weight: bold;' +
+						'padding: 1em 0;' +
+					'}' +
+					'.customer_area th, .customer_area td,' +
+					'.service_area th, .service_area td {' +
+						'border: 1px solid #000;' +
+					'}' +
+					'.customer_area td, .service_area td {' +
+						'padding: 0.5em 1em;' +
+					'}' +
+					'.company_area th {' +
+						'text-align: right;' +
+						'background-color: #fff;' +
+						'font-weight: normal;' +
+						'border-left: 1px solid #000;' +
+						'border-right: 1px solid #000;' +
+						'border-bottom: 1px solid #000;' +
+						'padding-right: 1em;' +
+					'}' +
+					'.company_area td {' +
+						'border-bottom: 1px solid #000;' +
+						'padding: 0.5em 1em;' +
+					'}' +
+					'.company_area td:last-child {' +
+						'border-right: 1px solid #000;' +
+					'}' +
+					'.contract_unit {' +
+						'text-align: right;' +
+						'font-size: 0.8em;' +
+					'}' +
+					'.contract_date {' +
+						'text-align: right;' +
+						'font-size: 1.1em;' +
+						'font-weight: 600;' +
+						'padding: 1em 0;' +
+					'}' +
+					'.customer_input_area {' +
+						'background-color: #fff2cc;' +
+						'min-width: 100px;' +
+					'}' +
+					'.start_date_precautions {' +
+						'color: red;' +
+						'display: inline-block;' +
+						'padding-top: 1em;' +
+						'padding-bottom: 0.5em;' +
+					'}' +
+					'.customer_cell {' +
+						'width: 50%;' +
+					'}' +
+				'</style>';
+	const newWin = window.open('');
+	newWin.document.write(style);
+	newWin.document.write(printObj.outerHTML);
+	setTimeout(function() {
+		newWin.print();
+		newWin.close();
+	}, 250);
+}
+
+export default {
+	printData
+}
