@@ -12,8 +12,11 @@ import com.uprism.contract.model.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -147,5 +150,31 @@ public class ContractRestController {
                         .id(contract.getId())
                         .build()
         );
+    }
+    
+    @GetMapping("/charts")
+    public Response<ContractRepresentation.Charts> getChartDataByContractDate() {
+    	final List<Contract> contracts = contractQueryService.getContracts();
+    	Map<String, BigDecimal> contractPriceByDate = contracts.stream()
+    			.collect(Collectors.toMap(
+    					Contract::getContractDate,
+    					Contract::getTotalPrice,
+    					BigDecimal::add
+    					)
+    			);
+    	Map<String, Long> contractNumberByDate = contracts.stream()
+    			.collect(Collectors.groupingBy(
+    					Contract::getContractDate,
+    					Collectors.counting()
+    					)
+    			);
+    	
+    	return new Response<>(
+    			ContractRepresentation.Charts
+    					.builder()
+    					.contractPriceByDate(contractPriceByDate)
+    					.contractNumberByDate(contractNumberByDate)
+    					.build()
+    	);
     }
 }

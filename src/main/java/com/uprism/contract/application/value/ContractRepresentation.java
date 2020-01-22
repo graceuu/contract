@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public class ContractRepresentation {
 
@@ -55,5 +56,12 @@ public class ContractRepresentation {
         	private String remarks;
         	private int orders;
         }
+    }
+    
+    @Builder
+    @Getter
+    public static class Charts {
+    	private Map<String, BigDecimal> contractPriceByDate;
+    	private Map<String, Long> contractNumberByDate;
     }
 }
