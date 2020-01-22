@@ -17,6 +17,6 @@ public class MemberCommandService {
 	public void addMember(final String id,
 						final String name,
 						final String password) {
-		memberRepository.save(Member.of(id, name, password));
+		memberRepository.save(new Member(id, name, password));
 	}
 }

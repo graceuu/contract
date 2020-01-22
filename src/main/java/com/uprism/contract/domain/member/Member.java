@@ -3,32 +3,37 @@ package com.uprism.contract.domain.member;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@Setter
 
 @Entity
 @Table(name = "members")
 public class Member {
 	
-	public static Member of(final String id, final String name, final String password) {
-		return new Member(id, name, password);
+	public Member(
+			String id,
+			String name,
+			String password
+	) {
+		this.id = id;
+		this.name = name;
+		this.password = password;
 	}
-
+	
 	@Id
-	@NonNull
 	private String id;
 	
-	@NonNull
+	@NotNull
 	private String name;
 	
-	@NonNull
+	@NotNull
 	private String password;
 }

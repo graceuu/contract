@@ -15,8 +15,9 @@ import com.uprism.contract.domain.contract.Contract;
 
 import lombok.*;
 
-@Data
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter
+@Setter
 
 @Entity
 @Table(name = "payments")
@@ -43,6 +44,5 @@ public class Payment {
 	private int orders;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@Setter
 	private Contract contract;
 }

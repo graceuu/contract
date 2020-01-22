@@ -24,7 +24,7 @@
         </ol>
 
         <!-- Page Content -->
-        <form action="/contract/update" method="post">
+        <form th:action="|/contract/${contract.id}|" method="post">
 	        <table id="contractTable" class="contract_table">
 	        	<tr><td colspan="5" class="contract_title">uPrism.io Meetings 서비스 신청서</td></tr>
 	        	<tr><td colspan="5">　서비스 신청인 충북일자리지원센터 (이하 “사용자”)과 서비스 제공자인 ㈜유프리즘아이오(이하 “제공자”)은 화상회의 ASP서비스를 이용함에 있어 -아래-와 같이 신청합니다.</td></tr>
@@ -113,7 +113,6 @@
 	       		</tr>
 	        	<tr><td colspan="5">첨부서류 : 사업자등록증 1부, 법인계좌 1부</td></tr>
 	        </table>
-	        <input type="hidden" name="id" th:value="${contract.id}">
 	        <div class="row justify-content-md-center mb-5">
 	        	<button class="btn btn-primary mr-1">계약서 저장</button>
 	        </div>

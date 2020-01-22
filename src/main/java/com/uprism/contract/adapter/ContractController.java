@@ -38,7 +38,7 @@ public class ContractController {
 		return "contract/form";
 	}
 	
-	@PostMapping("/create")
+	@PostMapping
     public String createContract(
     		HttpServletRequest request,
     		HttpSession session
@@ -62,7 +62,7 @@ public class ContractController {
         		request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/contract/" + contract.getId()
         );
         
-        return "redirect:";
+        return "redirect:/contract";
     }
 	
 	@GetMapping
@@ -100,12 +100,13 @@ public class ContractController {
 		return "contract/preview";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/{id}")
 	public String updateContract(
+			@PathVariable("id") Long id,
 			ContractCommand.Modification command
 	) {
 		contractCommandService.addContractAdditional(
-				command.getId(),
+				id,
 				command.getName(),
 				command.getContactName(),
 				command.getContact(),
@@ -116,7 +117,7 @@ public class ContractController {
 				command.getAddress()
 		);
 		
-		return "redirect:" + command.getId();
+		return "redirect:" + id;
 	}
 	
 	@GetMapping("/charts")

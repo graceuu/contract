@@ -33,7 +33,6 @@ public class ContractCommand {
     @Setter
     public static class Modification {
     	
-    	private Long id;
     	private String name;
     	private String contactName;
         private String contact;

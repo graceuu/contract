@@ -124,12 +124,13 @@ public class ContractRestController {
         );
     }
     
-    @PostMapping("/update")
+    @PutMapping("/{id}")
     public Response<ContractRepresentation.Detail> updateContract(
+    		@PathVariable("id") Long id,
     		@RequestBody final ContractCommand.Modification command
     ) {
         final Contract contract = contractCommandService.addContractAdditional(
-                command.getId(),
+        		id,
                 command.getName(),
                 command.getContactName(),
                 command.getContact(),
