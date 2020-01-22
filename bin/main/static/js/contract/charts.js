@@ -4,10 +4,12 @@ function drawLineChart(chartObjId, chartData) {
 	if (!chartObj)
 		return;
 	
+	const orderedData = sortData(chartData);
+	
 	new Chart(chartObj, {
 		type: 'line',
 		data: {
-			labels: Object.keys(chartData),
+			labels: Object.keys(orderedData),
 			datasets: [{
 				label: '건',
 				lineTension: 0.3,
@@ -20,7 +22,7 @@ function drawLineChart(chartObjId, chartData) {
 				pointHoverBackgroundColor: 'rgba(2,117,216,1)',
 				pointHitRadius: 50,
 				pointBorderWidth: 2,
-				data: Object.values(chartData)
+				data: Object.values(orderedData)
 			}],
 		},
 		options: {
@@ -39,7 +41,7 @@ function drawLineChart(chartObjId, chartData) {
 				yAxes: [{
 					ticks: {
 						min: 0,
-						max: 100,
+						max: 10,
 						maxTicksLimit: 5
 					},
 					gridLines: {
@@ -60,15 +62,17 @@ function drawBarChart(chartObjId, chartData) {
 	if (!chartObj)
 		return;
 	
+	const orderedData = sortData(chartData);
+	
 	new Chart(chartObj, {
 		type: 'bar',
 		data: {
-			labels: Object.keys(chartData),
+			labels: Object.keys(orderedData),
 			datasets: [{
 				label: '원',
 				backgroundColor: 'rgba(2,117,216,1)',
 				borderColor: 'rgba(2,117,216,1)',
-				data: Object.values(chartData)
+				data: Object.values(orderedData)
 			}],
 		},
 		options: {
@@ -87,7 +91,7 @@ function drawBarChart(chartObjId, chartData) {
 				yAxes: [{
 					ticks: {
 						min: 0,
-						max: 1000000,
+						max: 5000000,
 						maxTicksLimit: 5
 					},
 					gridLines: {
@@ -100,6 +104,14 @@ function drawBarChart(chartObjId, chartData) {
 			}
 		}
 	});
+}
+
+function sortData(unorderedData) {
+	const orderedData = {};
+	Object.keys(unorderedData).sort().forEach(function(key) {
+		orderedData[key] = unorderedData[key];
+	});
+	return orderedData;
 }
 
 export default {
