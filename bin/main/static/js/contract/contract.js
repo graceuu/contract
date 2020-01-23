@@ -2,7 +2,7 @@ function printData(objId) {
 	const printObj = document.getElementById(objId);
 	const style = '<style>' +
 					'.contract_table {' +
-						'font-size: 0.9em;' +
+						'font-size: 0.8em;' +
 						'background: url("https://www.uprism.com/images/common/uprism_stamp.png") no-repeat 80% 91%;' +
 						'margin-bottom: 3em;' +
 						'max-width: 850px;' +
@@ -22,7 +22,7 @@ function printData(objId) {
 					'}' +
 					'.contract_under_area {' +
 						'text-align: center;' +
-						'padding: 1.2em 0;' +
+						'padding: 1em 0;' +
 					'}' +
 					'.contract_sub_title {' +
 						'font-size: 1.1em;' +

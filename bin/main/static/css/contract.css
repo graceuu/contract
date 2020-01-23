@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .contract_table {
-	font-size: 0.9em;
+	font-size: 0.8em;
 	background: url('/images/uprism_stamp.png') no-repeat 80% 91%;
 	margin-bottom: 3em;
 	max-width: 850px;
@@ -24,7 +24,7 @@
 
 .contract_under_area {
 	text-align: center;
-	padding: 1.2em 0;
+	padding: 1em 0;
 }
 
 .contract_sub_title {
